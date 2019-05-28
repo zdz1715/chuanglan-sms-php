@@ -147,7 +147,7 @@ class Request
             }
         }
         curl_close($ch);
-        if (self::$result) {
+        if (self::$error) {
             return false;
         }
         return true;
