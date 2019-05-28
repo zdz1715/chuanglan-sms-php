@@ -1,0 +1,16 @@
+{
+  "name": "zdz/chuanglan-sms-php",
+  "description": "创蓝253短信服务",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zdz",
+      "email": "zdzserver@163.com"
+    }
+  ],
+  "autoload":{
+    "psr-4": {
+      "ChuangLanSmsApi\\": "src/"
+    }
+  }
+}
