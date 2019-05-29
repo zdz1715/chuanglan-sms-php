@@ -58,7 +58,7 @@ class Request
     public function sendVariableSend($msg, $params, $uid = 0, $sendTime = '', $report = false, $extend = 0) {
         $params = [
             'msg'       => $msg,
-            'params'     => is_array($params) ? implode(',', $params) : $params
+            'params'     => is_array($params) ? implode(';', $params) : $params
         ];
         if ($sendTime) {
             $params['sendtime'] = $sendTime;
