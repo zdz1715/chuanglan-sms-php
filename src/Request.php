@@ -8,7 +8,7 @@ class Request
      */
     protected static $instance;
 
-    private static $host = 'http://smssh1.253.com';
+    private static $host = 'http://smssh1.253.com'; // 国际 http://intapi.253.com
 
     /**
      * @var 参数
@@ -20,9 +20,11 @@ class Request
     private static $result;
 
     private static $url = [
-        'sendMsg'   => '/msg/send/json',
+        'sendMsg'               => '/msg/send/json',
         // 发送变量短信
-        'sendVariableSend'   => '/msg/variable/json'
+        'sendVariableSend'      => '/msg/variable/json',
+        'sendAbroadMsg'         => '/send/json',
+        'sendBatchAbroadMsg'    => '/send',
     ];
 
     /**
@@ -46,37 +48,38 @@ class Request
         $host && self::$host = $host;
     }
 
+
     /**
+     * 发送国际短信-单条
      * @param $msg
-     * @param $params
-     * @param int $uid
-     * @param string $sendTime
-     * @param bool $report
-     * @param int $extend
+     * @param $mobile
      * @return bool
      */
-    public function sendVariableSend($msg, $params, $uid = 0, $sendTime = '', $report = false, $extend = 0) {
+    public function sendAbroadMsg($msg, $mobile) {
         $params = [
             'msg'       => $msg,
-            'params'     => is_array($params) ? implode(';', $params) : $params
+            'mobile'     => $mobile
         ];
-        if ($sendTime) {
-            $params['sendtime'] = $sendTime;
-        }
-        if ($report) {
-            $params['report'] = $report;
-        }
-        if ($uid) {
-            $params['uid'] = $uid;
-        }
-        if ($extend) {
-            $params['extend'] = $extend;
-        }
-
-
-        $url = $this->getUrl('sendVariableSend');
+        $url = $this->getUrl('sendAbroadMsg');
         return $this->curlPost($url, $params);
     }
+
+
+    /**
+     * 发送国际短信-多个手机号
+     * @param $msg
+     * @param $mobile
+     * @return bool
+     */
+    public function sendBatchAbroadMsg($msg, $mobile) {
+        $params = [
+            'msg'       => $msg,
+            'mobile'     => is_array($mobile) ? implode(',', $mobile) : $mobile
+        ];
+        $url = $this->getUrl('sendAbroadMsg');
+        return $this->curlPost($url, $params);
+    }
+
 
     /**
      *  发送短信
@@ -108,6 +111,39 @@ class Request
 
 
         $url = $this->getUrl();
+        return $this->curlPost($url, $params);
+    }
+
+
+    /**
+     * @param $msg
+     * @param $params
+     * @param int $uid
+     * @param string $sendTime
+     * @param bool $report
+     * @param int $extend
+     * @return bool
+     */
+    public function sendVariableSend($msg, $params, $uid = 0, $sendTime = '', $report = false, $extend = 0) {
+        $params = [
+            'msg'       => $msg,
+            'params'     => is_array($params) ? implode(';', $params) : $params
+        ];
+        if ($sendTime) {
+            $params['sendtime'] = $sendTime;
+        }
+        if ($report) {
+            $params['report'] = $report;
+        }
+        if ($uid) {
+            $params['uid'] = $uid;
+        }
+        if ($extend) {
+            $params['extend'] = $extend;
+        }
+
+
+        $url = $this->getUrl('sendVariableSend');
         return $this->curlPost($url, $params);
     }
 
@@ -161,3 +197,4 @@ class Request
         return self::$result;
     }
 }
+
