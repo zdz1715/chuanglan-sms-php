@@ -48,6 +48,9 @@ class Request
         $host && self::$host = $host;
     }
 
+    public function sendVoiceMsg($msg, $mobile, $needstatus, $extno) {
+
+    }
 
     /**
      * 发送国际短信-单条
@@ -179,7 +182,11 @@ class Request
             if ($rsp != 200) {
                 self::$error = curl_error($ch);
             } else {
-                self::$result = json_decode($ret, true);
+                $result = json_decode($ret, true);
+                if ($result['code'] == 0) {
+
+                }
+                self::$result = $result;
             }
         }
         curl_close($ch);
@@ -197,4 +204,12 @@ class Request
         return self::$result;
     }
 }
+
+
+$instance = Request::instance('N8407731', 'cXfKw2vyl');
+$instance->sendMsg('你好','17506517136');
+
+var_dump($instance->getResult());
+
+//var_dump($instance->getError());
 
