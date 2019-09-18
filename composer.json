@@ -12,5 +12,8 @@
     "psr-4": {
       "ChuangLanSmsApi\\": "src/"
     }
+  },
+  "require": {
+    "ext-curl": "*"s
   }
 }
