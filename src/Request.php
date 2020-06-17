@@ -60,6 +60,9 @@ class Request
         if (is_null(self::$instance[$instanceKey])) {
             self::$instance[$instanceKey] = new static($account, $password, $config);
         }
+        
+        self::$account['account']  = $account;
+        self::$account['password'] = $password;
         self::$config = array_merge(self::$config, $config);
         return self::$instance[$instanceKey];
     }
